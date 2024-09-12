@@ -8,7 +8,6 @@ const test = (req, res) => {
 
 const updateUser = async (req, res, next) => {
     if (req.user.id != req.params.id) return next(errorHandler(401, 'Unauthorized'))
-    console.log(req.body);
     
     try {
         if (req.body.password) {
@@ -31,7 +30,24 @@ const updateUser = async (req, res, next) => {
     }
 }
 
-exports.test = test;
+const deleteUser = async (req, res, next) => {
+    if(req.params.id != req.user.id ) next(errorHandler(403, 'Unauthorized'));
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.user.id)
+        console.log(deleteUser);
+        res.clearCookie('access_token');
+        res.status(204).json('User has been deleted succesfully');
+        
+    } catch (error) {
+        next(error);
+    }
 
+}
+
+    
+
+exports.test = test;
 exports.updateUser = updateUser;
+exports.deleteUser = deleteUser;
+
 

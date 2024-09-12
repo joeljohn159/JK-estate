@@ -24,7 +24,8 @@ const OAuth = ({value}) => {
           name: result.user.displayName,
           email: result.user.email,
           photoURL: result.user.photoURL,
-        })
+        }),
+        credentials: 'include'
       })
 
       const data = await res.json();

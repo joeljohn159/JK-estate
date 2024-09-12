@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const userRouter  = require('./routes/user.route')
 const authRouter  = require('./routes/auth.route');
 const cookieParser = require('cookie-parser');
+const listingRouter = require('./routes/listing.route.js')
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URI).then(()=>{
@@ -17,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI).then(()=>{
 const app = express();
 
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.use((req, res, next)=>{
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
@@ -33,8 +34,8 @@ app.listen(3000, ()=>{
 
 
 app.use('/api/user', userRouter);
-
 app.use('/api/auth',authRouter );
+app.use('/api/listing',listingRouter );
 
 app.use((err, req, res, next) => {
     let statusCode = err.statusCode || 500;
